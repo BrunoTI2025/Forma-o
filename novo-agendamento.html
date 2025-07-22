@@ -1,45 +1,56 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <title>Novo Agendamento</title>
+<meta charset="utf-8"/>
+<title>Novo Agendamento</title>
 </head>
-<body>
-  <h2>Formulário de Agendamento</h2>
-  <form>
-    <label>Número Mecanográfico: <input type="text" name="num_mecanografico"></label><br>
-    <label>Nome do Requerente: <input type="text" name="nome"></label><br>
-    <label>Serviço do Requerente: <input type="text" name="servico"></label><br>
-    <label>Email: <input type="email" name="email"> Contacto: <input type="tel" name="contacto"></label><br>
-    <label>Sala Pretendida: 
+<body><div class="sidebar" style="background-color: #2E7D32; color: white; width: 220px; height: 100vh; padding-top: 10px; position: fixed; left: 0; top: 0;">
+<img alt="Logotipo ULSAS" src="img/ulsas_logotipo.png" style="display: block; margin: 20px auto;"/>
+<ul style="list-style: none; padding-left: 20px; font-weight: bold;">
+<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Início</a></li>
+<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Agendamentos</a></li>
+<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Calendário</a></li>
+<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Salas</a></li>
+<li><a href="#" style="color: white; text-decoration: none;">Administração</a></li>
+</ul>
+</div>
+
+<h2>Formulário de Agendamento</h2>
+<form>
+<label>Número Mecanográfico: <input name="num_mecanografico" type="text"/></label><br/>
+<label>Nome do Requerente: <input name="nome" type="text"/></label><br/>
+<label>Serviço do Requerente: <input name="servico" type="text"/></label><br/>
+<label>Email: <input name="email" type="email"/> Contacto: <input name="contacto" type="tel"/></label><br/>
+<label>Sala Pretendida: 
       <select name="sala">
-        <option>Almada</option>
-        <option>Garcia de Orta</option>
-        <option>Tejo</option>
-        <option>Informática</option>
-        <option>S. João</option>
-        <option>CDC</option>
-        <option>Auditório</option>
-        <option>Amora</option>
-        <option>Seixal</option>
-        <option>IPQ</option>
-        <option>IEP</option>
-        <option>Heli Porto</option>
-      </select>
-    </label><br>
-    <label>Nome do Evento: <input type="text" name="evento"> Nº Participantes: <input type="number" name="num_participantes"></label><br>
-    <label>Data e Hora: <input type="datetime-local" name="datahora"></label><br>
-    <fieldset>
-      <legend>Equipamentos Necessários</legend>
-      <label><input type="checkbox" name="equipamento" value="projetor"> Projetor</label>
-      <label><input type="checkbox" name="equipamento" value="computador"> Computador</label>
-      <label><input type="checkbox" name="equipamento" value="som"> Som</label>
-      <label><input type="checkbox" name="equipamento" value="coffee"> Coffee break</label>
-    </fieldset>
-    <label>Observações extras:<br>
-      <textarea name="observacoes" rows="4" cols="50"></textarea>
-    </label><br>
-    <button type="submit">Submeter</button>
-  </form>
+<option>Almada</option>
+<option>Garcia de Orta</option>
+<option>Tejo</option>
+<option>Informática</option>
+<option>S. João</option>
+<option>CDC</option>
+<option>Auditório</option>
+<option>Amora</option>
+<option>Seixal</option>
+<option>IPQ</option>
+<option>IEP</option>
+<option>Heli Porto</option>
+</select>
+</label><br/>
+<label>Nome do Evento: <input name="evento" type="text"/> Nº Participantes: <input name="num_participantes" type="number"/></label><br/>
+<label>Data e Hora: <input name="datahora" type="datetime-local"/></label><br/>
+<fieldset>
+<legend>Equipamentos Necessários</legend>
+<label><input name="equipamento" type="checkbox" value="projetor"/> Projetor</label>
+<label><input name="equipamento" type="checkbox" value="computador"/> Computador</label>
+<label><input name="equipamento" type="checkbox" value="som"/> Som</label>
+<label><input name="equipamento" type="checkbox" value="coffee"/> Coffee break</label>
+</fieldset>
+<label>Observações extras:<br/>
+<textarea cols="50" name="observacoes" rows="4"></textarea>
+</label><br/>
+<button type="submit">Submeter</button>
+</form>
 </body>
 </html>
