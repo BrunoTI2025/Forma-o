@@ -1,56 +1,90 @@
 <!DOCTYPE html>
-
 <html lang="pt">
 <head>
-<meta charset="utf-8"/>
-<title>Novo Agendamento</title>
+  <meta charset="UTF-8" />
+  <title>Novo Agendamento</title>
+  <link rel="stylesheet" href="style.css" />
+  
 </head>
-<body><div class="sidebar" style="background-color: #2E7D32; color: white; width: 220px; height: 100vh; padding-top: 10px; position: fixed; left: 0; top: 0;">
-<img alt="Logotipo ULSAS" src="img/ulsas_logotipo.png" style="display: block; margin: 20px auto;"/>
-<ul style="list-style: none; padding-left: 20px; font-weight: bold;">
-<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Início</a></li>
-<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Agendamentos</a></li>
-<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Calendário</a></li>
-<li style="margin-bottom: 15px;"><a href="#" style="color: white; text-decoration: none;">Salas</a></li>
-<li><a href="#" style="color: white; text-decoration: none;">Administração</a></li>
-</ul>
+<body>
+  
+<div class="sidebar">
+  <ul>
+    <li><a href="index.html">Início</a></li>
+    <li><a href="agendamentos.html">Agendamentos</a></li>
+    <li><a href="calendario.html">Calendário</a></li>
+    <li><a href="salas.html">Salas</a></li>
+    <li><a href="admin.html">Administração</a></li>
+  </ul>
 </div>
 
-<h2>Formulário de Agendamento</h2>
+  
+<div class="top-logo">
+  <img src="img/ulsas_logotipo.png" alt="Logotipo ULSAS" class="logo" />
+</div>
+
+  <div class="main-content">
+    
+<h1>Formulário de Agendamento</h1>
 <form>
-<label>Número Mecanográfico: <input name="num_mecanografico" type="text"/></label><br/>
-<label>Nome do Requerente: <input name="nome" type="text"/></label><br/>
-<label>Serviço do Requerente: <input name="servico" type="text"/></label><br/>
-<label>Email: <input name="email" type="email"/> Contacto: <input name="contacto" type="tel"/></label><br/>
-<label>Sala Pretendida: 
-      <select name="sala">
-<option>Almada</option>
-<option>Garcia de Orta</option>
-<option>Tejo</option>
-<option>Informática</option>
-<option>S. João</option>
-<option>CDC</option>
-<option>Auditório</option>
-<option>Amora</option>
-<option>Seixal</option>
-<option>IPQ</option>
-<option>IEP</option>
-<option>Heli Porto</option>
-</select>
-</label><br/>
-<label>Nome do Evento: <input name="evento" type="text"/> Nº Participantes: <input name="num_participantes" type="number"/></label><br/>
-<label>Data e Hora: <input name="datahora" type="datetime-local"/></label><br/>
-<fieldset>
-<legend>Equipamentos Necessários</legend>
-<label><input name="equipamento" type="checkbox" value="projetor"/> Projetor</label>
-<label><input name="equipamento" type="checkbox" value="computador"/> Computador</label>
-<label><input name="equipamento" type="checkbox" value="som"/> Som</label>
-<label><input name="equipamento" type="checkbox" value="coffee"/> Coffee break</label>
-</fieldset>
-<label>Observações extras:<br/>
-<textarea cols="50" name="observacoes" rows="4"></textarea>
-</label><br/>
-<button type="submit">Submeter</button>
+  <fieldset>
+    <legend><strong>Requerente</strong></legend>
+    <label>Número Mecanográfico:<br><input type="text" name="num_mec" required></label><br><br>
+    <label>Nome do Requerente:<br><input type="text" name="nome" required></label><br><br>
+    <label>Serviço do Requerente:<br><input type="text" name="servico" required></label><br><br>
+    <label>Email:<br><input type="email" name="email" required></label>
+    <label style="margin-left: 30px;">Contacto:<br><input type="tel" name="contacto" required></label>
+  </fieldset><br>
+
+  <fieldset>
+    <legend><strong>Evento</strong></legend>
+    <label>Sala Pretendida:<br>
+      <select name="sala" required>
+        <option value="">-- Selecione --</option>
+        <option>Sala Tejo</option>
+        <option>Sala Almada</option>
+        <option>Sala Formação</option>
+      </select>
+    </label><br><br>
+    <label>Nome do Evento:<br><input type="text" name="evento" required></label>
+    <label style="margin-left: 30px;">N.º de Participantes:<br><input type="number" name="participantes"></label>
+  </fieldset><br>
+
+  <fieldset>
+    <legend><strong>Data e Hora</strong></legend>
+    <label>Data:<br><input type="date" name="data" required></label><br><br>
+    <label>Hora de Início:<br><input type="time" name="hora_inicio" required></label><br><br>
+    <label>Hora de Fim:<br><input type="time" name="hora_fim" required></label><br><br>
+    <label><input type="checkbox" name="multi_dias"> Agendar para mais de um dia</label>
+  </fieldset><br>
+
+  <fieldset>
+    <legend><strong>Recursos Necessários</strong></legend>
+    <label><input type="checkbox" name="recursos" value="projetor"> Projetor</label><br>
+    <label><input type="checkbox" name="recursos" value="computador"> Computador</label><br>
+    <label><input type="checkbox" name="recursos" value="som"> Som</label><br>
+    <label><input type="checkbox" name="recursos" value="coffee"> Coffee Break</label>
+  </fieldset><br>
+
+  <fieldset>
+    <legend><strong>Observações</strong></legend>
+    <textarea name="observacoes" rows="5" style="width: 100%;"></textarea>
+  </fieldset><br>
+
+  <button type="submit" class="botao-novo">Submeter Agendamento</button>
 </form>
+
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+        if (calendarEl) {
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        }
+    });
+  </script>
 </body>
 </html>

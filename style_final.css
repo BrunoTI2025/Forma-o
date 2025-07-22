@@ -1,0 +1,56 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+.sidebar {
+    width: 200px;
+    background-color: #2e7d32;
+    color: white;
+    height: 100vh;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+.sidebar li {
+    margin: 20px 0;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.top-logo {
+    text-align: center;
+    margin-left: 200px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.logo {
+    height: 40px;
+}
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+    flex: 1;
+}
+.botao-novo {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background-color: #1976d2;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.botao-novo:hover {
+    background-color: #1565c0;
+}
