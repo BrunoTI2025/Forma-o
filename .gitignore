@@ -1,0 +1,16 @@
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Pastas ocultas
+node_modules/
+dist/
+.env
+.vscode/
+
+# Logs
+*.log
+
+# Backup temporários
+*.bak
+*.tmp
