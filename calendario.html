@@ -1,46 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <title>Calendario</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Calendário</title>
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+    #calendar {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">
-  <img src="ulsas_logotipo.png" alt="Logotipo ULSAS" class="logo" />
-</div>
-
-  
 <div class="sidebar">
   <ul>
     <li><a href="index.html">Início</a></li>
     <li><a href="agendamentos.html">Agendamentos</a></li>
-    <li><a href="calendario.html">Calendário</a></li>
+    <li><a href="calendario.html" class="active">Calendário</a></li>
     <li><a href="salas.html">Salas</a></li>
     <li><a href="admin.html">Administração</a></li>
   </ul>
 </div>
 
-  
-<div class="top-logo">
-  <img src="img/ulsas_logotipo.png" alt="Logotipo ULSAS" class="logo" />
-</div>
+<h1 style="text-align:center; margin-top:20px;">Calendário</h1>
 
-  <div class="main-content">
-    <h1>Calendário</h1><div id='calendar'></div>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const calendarEl = document.getElementById('calendar');
-        if (calendarEl) {
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth'
-            });
-            calendar.render();
-        }
-    });
-  </script>
+<div id='calendar'></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  const calendarEl = document.getElementById('calendar');
+
+  let eventos = [];
+  try {
+    const res = await fetch('/api/agendamentos');
+    const data = await res.json();
+    eventos = data.map(ev => ({
+      title: ev.nomeEvento + " - " + ev.sala,
+      start: ev.data + "T" + ev.horaInicio,
+      end: ev.data + "T" + ev.horaFim,
+      extendedProps: {
+        participantes: ev.participantes,
+        sala: ev.sala,
+        observacoes: ev.observacoes
+      }
+    }));
+  } catch (err) {
+    console.error("Erro ao carregar eventos:", err);
+  }
+
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'timeGridWeek',
+    slotMinTime: '08:00:00',
+    slotMaxTime: '17:00:00',
+    locale: 'pt',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    events: eventos,
+    eventClick: function(info) {
+      const ev = info.event.extendedProps;
+      const content = `
+        <strong>${info.event.title}</strong><br>
+        <strong>Início:</strong> ${info.event.start.toLocaleTimeString()}<br>
+        <strong>Fim:</strong> ${info.event.end ? info.event.end.toLocaleTimeString() : "N/D"}<br>
+        <strong>Sala:</strong> ${ev.sala}<br>
+        <strong>Participantes:</strong> ${ev.participantes}<br>
+        <strong>Observações:</strong> ${ev.observacoes || "Nenhuma"}
+      `;
+      tippy(info.el, {
+        content: content,
+        allowHTML: true,
+        trigger: 'manual',
+        placement: 'top',
+        theme: 'light',
+        onHidden(instance) { instance.destroy(); }
+      }).show();
+    }
+  });
+
+  calendar.render();
+});
+</script>
+
 </body>
 </html>

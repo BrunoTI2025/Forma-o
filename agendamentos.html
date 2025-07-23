@@ -4,6 +4,41 @@
   <meta charset="UTF-8" />
   <title>Agendamentos</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .input-estilo {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin: 5px 0 15px 0;
+    }
+
+    .input-email {
+      width: 250px;
+    }
+
+    .input-contacto {
+      width: 160px;
+    }
+
+    .input-participantes {
+      width: 120px;
+    }
+
+    label {
+      display: block;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
 
@@ -31,39 +66,35 @@
     <div class="modal-content">
       <span class="fechar" onclick="fecharModal()">&times;</span>
       <h2>Novo Agendamento</h2>
-      <form>
+      <form id="form-agendamento">
         <fieldset>
           <legend><strong>Requerente</strong></legend>
-          <label>Número Mecanográfico:<br><input type="text" required></label><br><br>
-          <label>Nome do Requerente:<br><input type="text" required></label><br><br>
-          <label>Serviço do Requerente:<br><input type="text" required></label><br><br>
-          <div class="linha">
-            <label><input type="email" required placeholder="Email"></label>
-            <label><input type="tel" required placeholder="Contacto"></label>
-          </div>
+          <label>Número Mecanográfico:<br><input type="text" required></label><br>
+          <label>Nome do Requerente:<br><input type="text" required></label><br>
+          <label>Serviço do Requerente:<br><input type="text" required></label><br>
+          <label>E-mail:<br><input type="email" class="input-estilo input-email" required placeholder="Email"></label>
+          <label>Contacto:<br><input type="tel" class="input-estilo input-contacto" required placeholder="Contacto"></label>
         </fieldset><br>
 
         <fieldset>
           <legend><strong>Evento</strong></legend>
           <label>Sala Pretendida:<br>
-            <select required>
+            <select id="sala" required>
               <option value="">-- Selecione --</option>
               <option>Sala Tejo</option>
               <option>Sala Almada</option>
               <option>Sala Formação</option>
             </select>
-          </label><br><br>
-          <div class="linha">
-            <label><input type="text" required placeholder="Nome do Evento"></label>
-            <label><input type="number" placeholder="N.º de Participantes"></label>
-          </div>
+          </label><br>
+          <label>Nome do Evento:<br><input type="text" class="input-estilo" id="nomeEvento" required placeholder="Nome do Evento"></label>
+          <label>N.º de Participantes:<br><input type="number" class="input-estilo input-participantes" id="participantes" placeholder="N.º de Participantes"></label>
         </fieldset><br>
 
         <fieldset>
           <legend><strong>Data e Hora</strong></legend>
-          <label>Data:<br><input type="date" required></label><br><br>
-          <label>Hora Início:<br><input type="time" required></label><br><br>
-          <label>Hora Fim:<br><input type="time" required></label><br><br>
+          <label>Data:<br><input type="date" id="data" required></label><br>
+          <label>Hora Início:<br><input type="time" id="horaInicio" required></label><br>
+          <label>Hora Fim:<br><input type="time" id="horaFim" required></label><br>
           <label><input type="checkbox"> Agendar para mais de um dia</label>
         </fieldset><br>
 
@@ -77,10 +108,10 @@
 
         <fieldset>
           <legend><strong>Observações</strong></legend>
-          <textarea rows="4" placeholder="Escreva aqui..."></textarea>
+          <textarea id="observacoes" rows="4" placeholder="Escreva aqui..."></textarea>
         </fieldset><br>
 
-        <button type="submit" class="botao-novo">Submeter</button>
+        <button type="button" class="botao-novo" onclick="guardarAgendamento()">Submeter</button>
         <button type="button" onclick="fecharModal()">Cancelar</button>
       </form>
     </div>
@@ -94,6 +125,41 @@
   function fecharModal() {
     document.getElementById('modalAgendamento').style.display = 'none';
   }
+
+  function guardarAgendamento() {
+    const nomeEvento = document.getElementById("nomeEvento").value;
+    const data = document.getElementById("data").value;
+    const horaInicio = document.getElementById("horaInicio").value;
+    const horaFim = document.getElementById("horaFim").value;
+    const sala = document.getElementById("sala").value;
+    const participantes = document.getElementById("participantes").value;
+    const observacoes = document.getElementById("observacoes").value;
+
+    if (!nomeEvento || !data || !horaInicio || !horaFim || !sala) {
+      alert("Preenche todos os campos obrigatórios.");
+      return;
+    }
+
+    const agendamentos = JSON.parse(localStorage.getItem("agendamentos") || "[]");
+
+    agendamentos.push({
+      title: nomeEvento + " - " + sala,
+      start: `${data}T${horaInicio}`,
+      end: `${data}T${horaFim}`,
+      extendedProps: {
+        participantes: participantes,
+        sala: sala,
+        observacoes: observacoes
+      }
+    });
+
+    localStorage.setItem("agendamentos", JSON.stringify(agendamentos));
+
+    fecharModal();
+document.getElementById("popupConfirmacao").style.display = "block";
+    fecharModal();
+  }
+
   window.onclick = function(event) {
     const modal = document.getElementById('modalAgendamento');
     if (event.target == modal) {
@@ -101,6 +167,28 @@
     }
   };
 </script>
+
+
+<div id="popupConfirmacao" style="
+  display:none;
+  position:fixed;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.2);
+  z-index:999;
+  text-align:center;
+  width:320px;
+">
+  <p><strong>✅ O Seu Inquérito foi Submetido.</strong></p>
+  <p>Deverá aguardar aprovação por parte da Formação.<br>
+  Irá receber um E-mail com a confirmação.<br>
+  Obrigado.</p>
+  <button onclick="document.getElementById('popupConfirmacao').style.display='none';"
+    style="padding:8px 16px; background:#4caf50; color:white; border:none; border-radius:5px; cursor:pointer;">Fechar</button>
+</div>
 
 </body>
 </html>
